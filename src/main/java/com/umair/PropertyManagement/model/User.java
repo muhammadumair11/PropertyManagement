@@ -1,17 +1,16 @@
 package com.umair.PropertyManagement.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user_table")
 @Getter
 @Setter
+@Table(name = "user_table")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -33,4 +32,32 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     Set<Role> roles;
+
+    @OneToMany(mappedBy = "agent")
+    List<Property> properties;
+
+    @OneToMany(mappedBy = "user")
+    List<Inquiry> inquiries;
+
+    @OneToMany(mappedBy = "buyer")
+    List<Contract> buyerContracts;
+
+    @OneToMany(mappedBy = "seller")
+    List<Contract> sellerContracts;
+
+    @OneToMany(mappedBy = "user")
+    List<Review> reviews;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "favorite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "property_id")
+    )
+    List<Property> favoriteProperties;
+
+
+    @OneToMany(mappedBy = "user")
+    List<Notification> notifications;
 }

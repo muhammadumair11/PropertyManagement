@@ -8,7 +8,6 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "role_table")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,6 +21,6 @@ public class Role {
     String name;
 
     @ManyToMany(mappedBy = "roles")
-            @JsonIgnore
+    @JsonIgnore
     Set<User> users;
 }
