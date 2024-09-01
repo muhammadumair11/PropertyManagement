@@ -1,6 +1,7 @@
 package com.umair.PropertyManagement.implementation;
 
 import com.umair.PropertyManagement.dtos.UserDTO;
+import com.umair.PropertyManagement.exceptions.UserAlreadyExistsException;
 import com.umair.PropertyManagement.mapper.UserMapper;
 import com.umair.PropertyManagement.model.Role;
 import com.umair.PropertyManagement.model.User;
@@ -8,6 +9,7 @@ import com.umair.PropertyManagement.repository.RoleRepository;
 import com.umair.PropertyManagement.repository.UserRepository;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,17 +34,24 @@ public class UserServiceImplementation implements UserService {
         return users.stream().map(UserMapper::UserToUserDTO).collect(Collectors.toList());
     }
 
+    private User findUserEntityById(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException("User does not exist");
+        }
+        return user;
+    }
+
     @Override
     public UserDTO findUserById(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        return UserMapper.UserToUserDTO(user);
+        return UserMapper.UserToUserDTO(findUserEntityById(userId));
     }
 
     @Override
     public UserDTO createUser(UserDTO user) {
         User existingUser = userRepository.findByUsername(user.getUsername());
         if (existingUser != null) {
-            throw new RuntimeException("User Already Exist");
+            throw new UserAlreadyExistsException("User Already Exist");
         }
 
         if(user.getRoles() == null || user.getRoles() == "") {
@@ -73,7 +82,8 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public Boolean deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+        User user = findUserEntityById(userId);
+        userRepository.delete(user);
         if (findUserById(userId) == null)
             return true;
         return false;

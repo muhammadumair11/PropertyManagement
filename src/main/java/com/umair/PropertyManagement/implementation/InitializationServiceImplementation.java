@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umair.PropertyManagement.Enums.RoleType;
 import com.umair.PropertyManagement.dtos.UserDTO;
+import com.umair.PropertyManagement.exceptions.UserAlreadyExistsException;
 import com.umair.PropertyManagement.model.Role;
 import com.umair.PropertyManagement.repository.RoleRepository;
 import com.umair.PropertyManagement.services.InitializationService;
@@ -58,7 +59,13 @@ public class InitializationServiceImplementation implements InitializationServic
                 new ClassPathResource("users.json").getInputStream(),
                 new TypeReference<List<UserDTO>>() {}
         );
-        users.forEach(user -> userService.createUser(user));
+        users.forEach(user -> {
+            try {
+                userService.createUser(user);
+            } catch (UserAlreadyExistsException e) {
+                System.err.println("User already exists: " + user.getUsername());
+            }
+        });
     }
 
 }

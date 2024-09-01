@@ -1,6 +1,7 @@
 package com.umair.PropertyManagement.auth;
 
 import com.umair.PropertyManagement.dtos.UserDTO;
+import com.umair.PropertyManagement.exceptions.UserAlreadyExistsException;
 import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO user) {
-        try {
             UserDTO createdUser = userService.createUser(user);
             return ResponseEntity.ok(createdUser);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
     }
 
     @PostMapping("/login")
