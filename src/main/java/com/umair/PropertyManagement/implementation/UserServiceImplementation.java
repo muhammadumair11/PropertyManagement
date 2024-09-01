@@ -39,17 +39,20 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserDTO createUser(User user) {
+    public UserDTO createUser(UserDTO user) {
         User existingUser = userRepository.findByUsername(user.getUsername());
-        if(existingUser != null) {
+        if (existingUser != null) {
             throw new RuntimeException("User Already Exist");
         }
 
-        Role defaultRole = roleRepository.findByName("USER");
+        if(user.getRoles() == null || user.getRoles() == "") {
+            user.setRoles("BUYER");
+        }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Set.of(defaultRole));
-        User newUser = userRepository.save(user);
+        User userEntity = UserMapper.UserDTOToUser(user, roleRepository);
+        User newUser = userRepository.save(userEntity);
+
 
         return UserMapper.UserToUserDTO(newUser);
     }
@@ -58,7 +61,7 @@ public class UserServiceImplementation implements UserService {
     public UserDTO updateUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
 
-        if(existingUser != null) {
+        if (existingUser != null) {
             user.setId(existingUser.getId());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             User savedUser = userRepository.save(user);
@@ -71,7 +74,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public Boolean deleteUser(Long userId) {
         userRepository.deleteById(userId);
-        if(findUserById(userId) == null)
+        if (findUserById(userId) == null)
             return true;
         return false;
     }

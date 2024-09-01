@@ -3,8 +3,7 @@ services:
     container_name: postgres_container_propertyapp
     image: 'postgres:latest'
     env_file:
-      - path: /.env
-
+      - path: /src/main/resources/.dockerenv
     volumes:
       - postgres:/data/postgres
     ports:

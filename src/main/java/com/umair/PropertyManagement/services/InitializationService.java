@@ -7,5 +7,5 @@ public interface InitializationService {
 
     }
 
-    private void createDefaultUserAtStart(){}
+    private void loadUsers(){}
 }

@@ -12,7 +12,8 @@ target/
 .settings
 .springBeans
 .sts4-cache
-.env
+src/main/resources/.env
+src/main/resources/.dockerenv
 
 ### IntelliJ IDEA ###
 .idea

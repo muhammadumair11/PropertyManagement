@@ -20,7 +20,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody UserDTO user) {
         try {
             UserDTO createdUser = userService.createUser(user);
             return ResponseEntity.ok(createdUser);

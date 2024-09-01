@@ -3,10 +3,13 @@ spring:
     name: PropertyManagementApplication
   jpa:
     hibernate:
-      ddl-auto: "create"
+      ddl-auto: "update"
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-
+  datasource:
+    url: jdbc:postgresql://192.168.100.3:5432/propertymanagmentsystem
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
 
 server:
   port: 8082

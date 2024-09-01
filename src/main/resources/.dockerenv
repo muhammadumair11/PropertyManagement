@@ -1,0 +1,4 @@
+POSTGRES_DB="propertymanagmentsystem"
+POSTGRES_PASSWORD="umair"
+POSTGRES_USER="umair"
+PGDATA=/data/postgres
