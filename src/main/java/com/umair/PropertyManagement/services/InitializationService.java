@@ -3,9 +3,14 @@ package com.umair.PropertyManagement.services;
 public interface InitializationService {
     void initialize();
 
-    private void createDefaultRoleIfNotExists() {
-
+    private void insertAllRoleTypes() {
     }
 
-    private void loadUsers(){}
+    private void insertAllPropertyTypes() {
+    }
+
+    private void loadUsers() {
+    }
+
+    private void insertAllListingStatuses() {}
 }

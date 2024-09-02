@@ -3,7 +3,11 @@ package com.umair.PropertyManagement.implementation;
 import com.umair.PropertyManagement.model.Review;
 import com.umair.PropertyManagement.repository.ReviewRepository;
 import com.umair.PropertyManagement.services.ReviewService;
+import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

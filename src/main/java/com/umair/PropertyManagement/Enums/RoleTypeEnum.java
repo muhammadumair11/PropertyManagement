@@ -1,6 +1,6 @@
 package com.umair.PropertyManagement.Enums;
 
-public enum RoleType {
+public enum RoleTypeEnum {
     BUYER,
     SELLER,
     ADMIN,

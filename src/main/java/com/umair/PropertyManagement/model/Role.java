@@ -1,8 +1,7 @@
 package com.umair.PropertyManagement.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.umair.PropertyManagement.Enums.RoleType;
+import com.umair.PropertyManagement.Enums.RoleTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,13 +19,13 @@ public class Role {
 
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    RoleType name;
+    RoleTypeEnum name;
 
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     Set<User> users;
 
-    public Role(RoleType name) {
+    public Role(RoleTypeEnum name) {
         this.name = name;
     }
 }

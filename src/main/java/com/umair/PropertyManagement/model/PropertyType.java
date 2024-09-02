@@ -1,6 +1,7 @@
 package com.umair.PropertyManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.umair.PropertyManagement.Enums.PropertyTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,9 +19,14 @@ public class PropertyType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String propertyType;
+    @Enumerated(EnumType.STRING)
+    PropertyTypeEnum name;
 
     @OneToMany(mappedBy = "propertyType")
     @JsonIgnore
     List<Property> properties;
+
+    public PropertyType(PropertyTypeEnum name) {
+        this.name = name;
+    }
 }

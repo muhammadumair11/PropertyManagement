@@ -1,6 +1,6 @@
 package com.umair.PropertyManagement.implementation;
 
-import com.umair.PropertyManagement.Enums.RoleType;
+import com.umair.PropertyManagement.Enums.RoleTypeEnum;
 import com.umair.PropertyManagement.model.Role;
 import com.umair.PropertyManagement.repository.RoleRepository;
 import com.umair.PropertyManagement.services.RoleService;
@@ -25,7 +25,7 @@ public class RoleServiceImplementation implements RoleService {
         return roleRepository.findById(roleId).orElse(null);
     }
     @Override
-    public Role findRoleByName(RoleType name) {
+    public Role findRoleByName(RoleTypeEnum name) {
         return roleRepository.findByName(name);
     }
 

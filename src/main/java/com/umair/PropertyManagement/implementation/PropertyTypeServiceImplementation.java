@@ -1,12 +1,15 @@
 package com.umair.PropertyManagement.implementation;
 
+import com.umair.PropertyManagement.mapper.PropertyTypeMapper;
 import com.umair.PropertyManagement.model.PropertyType;
+import com.umair.PropertyManagement.model.dto.PropertyTypeDTO;
 import com.umair.PropertyManagement.repository.PropertyTypeRepository;
 import com.umair.PropertyManagement.services.PropertyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PropertyTypeServiceImplementation implements PropertyTypeService {
@@ -15,8 +18,9 @@ public class PropertyTypeServiceImplementation implements PropertyTypeService {
     PropertyTypeRepository propertyTypeRepository;
 
     @Override
-    public List<PropertyType> findAllPropertyTypes() {
-        return propertyTypeRepository.findAll();
+    public List<PropertyTypeDTO> findAllPropertyTypes() {
+        List<PropertyType> propertyTypes = propertyTypeRepository.findAll();
+        return propertyTypes.stream().map(PropertyTypeMapper::PropertyTypeToPropertyTypeDTO).collect(Collectors.toList());
     }
 
     @Override

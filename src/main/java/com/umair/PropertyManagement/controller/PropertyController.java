@@ -1,5 +1,9 @@
 package com.umair.PropertyManagement.controller;
 
+import com.umair.PropertyManagement.model.Property;
+import com.umair.PropertyManagement.model.dto.PropertyDTO;
+import com.umair.PropertyManagement.services.PropertyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,24 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/properties")
 public class PropertyController {
-//
-//    @GetMapping("")
-//    public ResponseEntity<List<>> findAll() {
-//        return ResponseEntity.ok();
-//    }
+
+    @Autowired
+    PropertyService propertyService;
+
+    @GetMapping("")
+    public ResponseEntity<List<PropertyDTO>> findAll() {
+        return ResponseEntity.ok(propertyService.findAllProperties());
+    }
 //    @GetMapping("{}")
 //    public ResponseEntity<> findById() {
 //        return ResponseEntity.ok();
 //    }
-//    @PostMapping("")
-//    public ResponseEntity<?> create() {
-//
-//        if( != null)
-//            return ResponseEntity.ok("New  Created");
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("New  is Not Created");
-//    }
+    @PostMapping("")
+    public ResponseEntity<?> create(@RequestBody Property property) {
+        Property createdProperty = propertyService.createProperty(property);
+        if(createdProperty != null)
+            return ResponseEntity.ok(createdProperty);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("New  is Not Created");
+    }
 //    @PutMapping("")
 //    public ResponseEntity<?> update() {
 //

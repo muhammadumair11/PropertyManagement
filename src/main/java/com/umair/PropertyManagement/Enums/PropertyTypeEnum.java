@@ -1,0 +1,18 @@
+package com.umair.PropertyManagement.Enums;
+
+public enum PropertyTypeEnum {
+    SINGLE_FAMILY_HOME,
+    CONDOMINIUM,
+    TOWNHOUSE,
+    APARTMENT,
+    MOBILE_HOME,
+    OFFICE_BUILDING,
+    RETAIL_SPACE,
+    INDUSTRIAL_PROPERTY,
+    LAND,
+    MIXED_USE_PROPERTY,
+    VACANT_LAND,
+    AGRICULTURAL_LAND,
+    TIMBERLAND,
+    MINERAL_RIGHTS
+}

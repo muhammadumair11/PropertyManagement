@@ -1,9 +1,8 @@
 package com.umair.PropertyManagement.implementation;
 
-import com.umair.PropertyManagement.dtos.UserDTO;
-import com.umair.PropertyManagement.exceptions.UserAlreadyExistsException;
+import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.exceptions.EntityAlreadyExistsException;
 import com.umair.PropertyManagement.mapper.UserMapper;
-import com.umair.PropertyManagement.model.Role;
 import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.repository.RoleRepository;
 import com.umair.PropertyManagement.repository.UserRepository;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +49,7 @@ public class UserServiceImplementation implements UserService {
     public UserDTO createUser(UserDTO user) {
         User existingUser = userRepository.findByUsername(user.getUsername());
         if (existingUser != null) {
-            throw new UserAlreadyExistsException("User Already Exist");
+            throw new EntityAlreadyExistsException("User Already Exist");
         }
 
         if(user.getRoles() == null || user.getRoles() == "") {
@@ -67,13 +65,21 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(User user) {
-        User existingUser = userRepository.findById(user.getId()).orElse(null);
+    public UserDTO updateUser(UserDTO userDTO) {
+        UserDTO existingUser = findUserById(userDTO.getId());
+
 
         if (existingUser != null) {
-            user.setId(existingUser.getId());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            User savedUser = userRepository.save(user);
+            userDTO.setId(existingUser.getId());
+            userDTO.setUsername(existingUser.getUsername());
+            userDTO.setEmail(existingUser.getEmail());
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+            if(userDTO.getRoles().isEmpty()) {
+                throw new EntityAlreadyExistsException("Role does not exists");
+            }
+
+            User savedUser = userRepository.save(UserMapper.UserDTOToUser(userDTO, roleRepository));
             return UserMapper.UserToUserDTO(savedUser);
         }
 
@@ -87,5 +93,46 @@ public class UserServiceImplementation implements UserService {
         if (findUserById(userId) == null)
             return true;
         return false;
+    }
+
+
+    /*
+        The following Functions deals with, User and Roles,
+        Adding new role for a specific user
+        and Also removing a specific Role from user
+     */
+    public UserDTO addRoleForUser(Long userId, String rolename) {
+        UserDTO userDTO = findUserById(userId);
+        if(userDTO.getRoles().contains(rolename))
+            throw new EntityAlreadyExistsException("Role already exists");
+
+        userDTO.setRoles(userDTO.getRoles().concat(",").concat(rolename));
+        User user = UserMapper.UserDTOToUser(userDTO, roleRepository);
+        User savedUser = userRepository.save(user);
+
+
+        return UserMapper.UserToUserDTO(savedUser);
+    }
+
+    public UserDTO deleteRoleFromUser(Long userId, String rolename) {
+        UserDTO userDTO = findUserById(userId);
+
+        if(!userDTO.getRoles().contains(rolename))
+            throw new EntityAlreadyExistsException("Role does not exists");
+        if(userDTO.getRoles().isEmpty() || userDTO.getRoles().equals(rolename))
+            throw new IllegalArgumentException("Role cannot be empty");
+
+        userDTO
+                .setRoles(userDTO
+                        .getRoles()
+                        .replaceFirst(",", "")
+                        .replaceFirst(rolename, "")
+                );
+
+        User user = UserMapper.UserDTOToUser(userDTO, roleRepository);
+        userRepository.save(user);
+
+        return findUserById(userId);
+
     }
 }

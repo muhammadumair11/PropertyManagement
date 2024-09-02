@@ -1,5 +1,8 @@
 package com.umair.PropertyManagement.controller;
 
+import com.umair.PropertyManagement.model.dto.PropertyTypeDTO;
+import com.umair.PropertyManagement.services.PropertyTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,13 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/property-type")
 public class PropertyTypeController {
-//
-//    @GetMapping("")
-//    public ResponseEntity<List<>> findAll() {
-//        return ResponseEntity.ok();
-//    }
+
+    @Autowired
+    PropertyTypeService propertyTypeService;
+
+    @GetMapping("")
+    public ResponseEntity<List<PropertyTypeDTO>> findAll() {
+        return ResponseEntity.ok(propertyTypeService.findAllPropertyTypes());
+    }
 //    @GetMapping("{}")
 //    public ResponseEntity<> findById() {
 //        return ResponseEntity.ok();

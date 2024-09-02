@@ -1,15 +1,12 @@
 package com.umair.PropertyManagement.auth;
 
-import com.umair.PropertyManagement.dtos.UserDTO;
-import com.umair.PropertyManagement.exceptions.UserAlreadyExistsException;
+import com.umair.PropertyManagement.model.dto.UserDTO;
 import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
