@@ -16,6 +16,7 @@ public class PropertyTypeMapper {
 
     public static PropertyType PropertyTypeDTOToPropertyType(PropertyTypeDTO propertyTypeDTO) {
         if (propertyTypeDTO == null) return null;
+        if (propertyTypeDTO.getPropertyType() == null) return null;
 
         PropertyType propertyType = new PropertyType();
         propertyType.setName(

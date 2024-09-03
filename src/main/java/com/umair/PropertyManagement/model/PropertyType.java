@@ -19,7 +19,9 @@ public class PropertyType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     PropertyTypeEnum name;
 
     @OneToMany(mappedBy = "propertyType")

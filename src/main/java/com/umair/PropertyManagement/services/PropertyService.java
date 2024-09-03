@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface PropertyService {
     List<PropertyDTO> findAllProperties();
-    Property findPropertyById(Long propertyId);
-    Property createProperty(Property property);
-    Property updateProperty(Property property);
+    PropertyDTO findPropertyById(Long propertyId);
+    PropertyDTO createProperty(PropertyDTO propertyDTO);
+    PropertyDTO updateProperty(PropertyDTO propertyDTO);
     Boolean deleteProperty(Long propertyId);
 }

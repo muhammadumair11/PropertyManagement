@@ -27,7 +27,7 @@ public class Property {
     Long id;
 
     String title;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     String description;
     Double price;
 
@@ -35,11 +35,11 @@ public class Property {
     @JoinColumn(name = "property_type_id")
     PropertyType propertyType;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "address_id")
     Address address;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     List<Inquiry> inquiries;
 
     @OneToOne(mappedBy = "property")

@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Cozy Beachfront Cottage",
+    "description": "A charming 2-bedroom cottage with direct beach access and stunning ocean views.",
+    "price": 350000.00,
+    "propertyType": "VACANT_LAND",
+    "address": {
+      "street": "321 Coastal Drive",
+      "city": "Santa Monica",
+      "state": "CA",
+      "country": "USA",
+      "zipCode": "90401"
+    },
+    "inquiries": [
+      {
+        "message": "I'm interested in learning more about this property. Could you please provide additional details about the beach access and ocean views?"
+      },
+      {
+        "message": "What is the estimated monthly mortgage payment for this property?"
+      },
+      {
+        "message": "Are there any HOA fees associated with this property?"
+      }
+    ]
+  },
+  {
+    "title": "Urban Penthouse Suite",
+    "description": "A luxurious penthouse with panoramic city views, private elevator, and high-end finishes.",
+    "price": 3000000.00,
+    "propertyType": "APARTMENT",
+    "address": {
+      "street": "888 Highrise Blvd",
+      "city": "San Francisco",
+      "state": "CA",
+      "country": "USA",
+      "zipCode": "94105"
+    },
+    "inquiries": [
+      {
+        "message": "Can you provide information about the amenities and facilities included in this penthouse?"
+      },
+      {
+        "message": "What is the estimated monthly rental income potential for this property?"
+      },
+      {
+        "message": "Are there any restrictions on short-term rentals for this property?"
+      }
+    ]
+  },
+  {
+    "title": "Rural Agricultural Land",
+    "description": "Expansive agricultural land with fertile soil and irrigation systems, perfect for farming.",
+    "price": 800000.00,
+    "propertyType": "AGRICULTURAL_LAND",
+    "address": {
+      "street": "456 Farm Road",
+      "city": "Fresno",
+      "state": "CA",
+      "country": "USA",
+      "zipCode": "93726"
+    },
+    "inquiries": [
+      {
+        "message": "What is the soil quality and suitability for different crops on this land?"
+      },
+      {
+        "message": "Is there sufficient water availability for irrigation?"
+      },
+      {
+        "message": "Are there any zoning restrictions or permits required for agricultural use?"
+      }
+    ]
+  },
+  {
+    "title": "Historic Townhouse",
+    "description": "A beautifully restored 3-bedroom townhouse in a historic district, combining charm with modern amenities.",
+    "price": 950000.00,
+    "propertyType": "TOWNHOUSE",
+    "address": {
+      "street": "789 Heritage Lane",
+      "city": "Philadelphia",
+      "state": "PA",
+      "country": "USA",
+      "zipCode": "19106"
+    },
+    "inquiries": [
+      {
+        "message": "What is the historical significance of this townhouse?"
+      },
+      {
+        "message": "Are there any renovations or updates planned for this property?"
+      },
+      {
+        "message": "What are the property taxes for this townhouse?"
+      }
+    ]
+  }
+]

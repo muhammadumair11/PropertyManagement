@@ -1,5 +1,6 @@
 package com.umair.PropertyManagement.services;
 
+import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.model.dto.UserDTO;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 public interface UserService {
     List<UserDTO> findAllUsers();
     UserDTO findUserById(Long userId);
+    User findUserByUsername(String username);
     UserDTO createUser(UserDTO user);
     UserDTO updateUser(UserDTO user);
     Boolean deleteUser(Long userId);

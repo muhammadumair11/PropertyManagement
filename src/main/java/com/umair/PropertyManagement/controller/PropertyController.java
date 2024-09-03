@@ -21,16 +21,16 @@ public class PropertyController {
     public ResponseEntity<List<PropertyDTO>> findAll() {
         return ResponseEntity.ok(propertyService.findAllProperties());
     }
-//    @GetMapping("{}")
-//    public ResponseEntity<> findById() {
-//        return ResponseEntity.ok();
-//    }
+
+    @GetMapping("{propertyId}")
+    public ResponseEntity<PropertyDTO> findById(@PathVariable Long propertyId) {
+        return ResponseEntity.ok(propertyService.findPropertyById(propertyId));
+    }
+
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody Property property) {
-        Property createdProperty = propertyService.createProperty(property);
-        if(createdProperty != null)
-            return ResponseEntity.ok(createdProperty);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("New  is Not Created");
+    public ResponseEntity<?> create(@RequestBody PropertyDTO propertyDTO) {
+        PropertyDTO createdProperty = propertyService.createProperty(propertyDTO);
+        return ResponseEntity.ok(createdProperty);
     }
 //    @PutMapping("")
 //    public ResponseEntity<?> update() {

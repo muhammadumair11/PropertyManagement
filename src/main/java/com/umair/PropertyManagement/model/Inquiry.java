@@ -20,11 +20,10 @@ public class Inquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     String message;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     User user;
 

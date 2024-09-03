@@ -45,6 +45,10 @@ public class UserServiceImplementation implements UserService {
         return UserMapper.UserToUserDTO(findUserEntityById(userId));
     }
 
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     @Override
     public UserDTO createUser(UserDTO user) {
         User existingUser = userRepository.findByUsername(user.getUsername());
@@ -52,7 +56,7 @@ public class UserServiceImplementation implements UserService {
             throw new EntityAlreadyExistsException("User Already Exist");
         }
 
-        if(user.getRoles() == null || user.getRoles() == "") {
+        if (user.getRoles() == null || user.getRoles() == "") {
             user.setRoles("BUYER");
         }
 
@@ -75,7 +79,7 @@ public class UserServiceImplementation implements UserService {
             userDTO.setEmail(existingUser.getEmail());
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-            if(userDTO.getRoles().isEmpty()) {
+            if (userDTO.getRoles().isEmpty()) {
                 throw new EntityAlreadyExistsException("Role does not exists");
             }
 
@@ -103,7 +107,7 @@ public class UserServiceImplementation implements UserService {
      */
     public UserDTO addRoleForUser(Long userId, String rolename) {
         UserDTO userDTO = findUserById(userId);
-        if(userDTO.getRoles().contains(rolename))
+        if (userDTO.getRoles().contains(rolename))
             throw new EntityAlreadyExistsException("Role already exists");
 
         userDTO.setRoles(userDTO.getRoles().concat(",").concat(rolename));
@@ -117,9 +121,9 @@ public class UserServiceImplementation implements UserService {
     public UserDTO deleteRoleFromUser(Long userId, String rolename) {
         UserDTO userDTO = findUserById(userId);
 
-        if(!userDTO.getRoles().contains(rolename))
+        if (!userDTO.getRoles().contains(rolename))
             throw new EntityAlreadyExistsException("Role does not exists");
-        if(userDTO.getRoles().isEmpty() || userDTO.getRoles().equals(rolename))
+        if (userDTO.getRoles().isEmpty() || userDTO.getRoles().equals(rolename))
             throw new IllegalArgumentException("Role cannot be empty");
 
         userDTO

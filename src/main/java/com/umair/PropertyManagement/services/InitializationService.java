@@ -13,4 +13,5 @@ public interface InitializationService {
     }
 
     private void insertAllListingStatuses() {}
+    private void loadProperties() {}
 }
