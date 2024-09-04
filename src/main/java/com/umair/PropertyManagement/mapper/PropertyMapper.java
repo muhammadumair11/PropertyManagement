@@ -67,7 +67,7 @@ public class PropertyMapper {
         property.setAddress(AddressMapper.AddressDTOToAddress(propertyDTO.getAddress()));
 
         // Set the Inquiries
-        if (propertyDTO.getInquiries() != null) {
+        if (propertyDTO.getInquiries() != null && !propertyDTO.getInquiries().isEmpty()) {
             List<Inquiry> inquiries = propertyDTO.getInquiries().stream().map(InquiryMapper::InquiryDTOToInquiry).toList();
             property.setInquiries(inquiries);
         }

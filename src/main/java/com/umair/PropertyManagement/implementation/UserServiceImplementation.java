@@ -94,7 +94,7 @@ public class UserServiceImplementation implements UserService {
     public Boolean deleteUser(Long userId) {
         User user = findUserEntityById(userId);
         userRepository.delete(user);
-        if (findUserById(userId) == null)
+        if (userRepository.findById(userId).orElse(null) == null)
             return true;
         return false;
     }

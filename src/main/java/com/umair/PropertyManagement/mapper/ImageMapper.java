@@ -9,6 +9,7 @@ public class ImageMapper {
         if (image == null) return null;
 
         ImagesDTO imagesDTO = new ImagesDTO();
+        imagesDTO.setId(image.getId());
         imagesDTO.setUrl(image.getUrl());
 
         return imagesDTO;

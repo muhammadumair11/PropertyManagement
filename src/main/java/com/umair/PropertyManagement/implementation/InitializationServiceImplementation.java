@@ -68,11 +68,14 @@ public class InitializationServiceImplementation implements InitializationServic
                         new UsernamePasswordAuthenticationToken("user", "123")
                 );
                 SecurityContextHolder.getContext().setAuthentication(auth);
+
             }
 
 
             // In the end properties are inserted from json with currently logged in user as agent
             loadProperties();
+
+            System.out.println("Ready Now");
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -10,18 +10,7 @@
       "state": "CA",
       "country": "USA",
       "zipCode": "90401"
-    },
-    "inquiries": [
-      {
-        "message": "I'm interested in learning more about this property. Could you please provide additional details about the beach access and ocean views?"
-      },
-      {
-        "message": "What is the estimated monthly mortgage payment for this property?"
-      },
-      {
-        "message": "Are there any HOA fees associated with this property?"
-      }
-    ]
+    }
   },
   {
     "title": "Urban Penthouse Suite",
@@ -34,18 +23,7 @@
       "state": "CA",
       "country": "USA",
       "zipCode": "94105"
-    },
-    "inquiries": [
-      {
-        "message": "Can you provide information about the amenities and facilities included in this penthouse?"
-      },
-      {
-        "message": "What is the estimated monthly rental income potential for this property?"
-      },
-      {
-        "message": "Are there any restrictions on short-term rentals for this property?"
-      }
-    ]
+    }
   },
   {
     "title": "Rural Agricultural Land",
@@ -58,18 +36,7 @@
       "state": "CA",
       "country": "USA",
       "zipCode": "93726"
-    },
-    "inquiries": [
-      {
-        "message": "What is the soil quality and suitability for different crops on this land?"
-      },
-      {
-        "message": "Is there sufficient water availability for irrigation?"
-      },
-      {
-        "message": "Are there any zoning restrictions or permits required for agricultural use?"
-      }
-    ]
+    }
   },
   {
     "title": "Historic Townhouse",
@@ -82,17 +49,6 @@
       "state": "PA",
       "country": "USA",
       "zipCode": "19106"
-    },
-    "inquiries": [
-      {
-        "message": "What is the historical significance of this townhouse?"
-      },
-      {
-        "message": "Are there any renovations or updates planned for this property?"
-      },
-      {
-        "message": "What are the property taxes for this townhouse?"
-      }
-    ]
+    }
   }
 ]

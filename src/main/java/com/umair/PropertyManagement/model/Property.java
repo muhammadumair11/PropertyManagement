@@ -3,6 +3,7 @@ package com.umair.PropertyManagement.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,10 +50,10 @@ public class Property {
     @OneToOne(mappedBy = "property")
     Listing listing;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", fetch = FetchType.EAGER, orphanRemoval = true)
     List<Image> images;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", orphanRemoval = true)
     List<Review> reviews;
 
     @ManyToMany(mappedBy = "favoriteProperties")

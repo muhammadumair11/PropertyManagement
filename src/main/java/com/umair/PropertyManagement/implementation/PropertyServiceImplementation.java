@@ -1,18 +1,24 @@
 package com.umair.PropertyManagement.implementation;
 
 import com.umair.PropertyManagement.Enums.PropertyTypeEnum;
+import com.umair.PropertyManagement.exceptions.EntityAlreadyExistsException;
+import com.umair.PropertyManagement.mapper.InquiryMapper;
 import com.umair.PropertyManagement.mapper.PropertyMapper;
+import com.umair.PropertyManagement.model.Image;
 import com.umair.PropertyManagement.model.Property;
 import com.umair.PropertyManagement.model.PropertyType;
 import com.umair.PropertyManagement.model.User;
+import com.umair.PropertyManagement.model.dto.ImagesDTO;
 import com.umair.PropertyManagement.model.dto.PropertyDTO;
 import com.umair.PropertyManagement.repository.PropertyRepository;
 import com.umair.PropertyManagement.repository.PropertyTypeRepository;
+import com.umair.PropertyManagement.services.ImageService;
 import com.umair.PropertyManagement.services.PropertyService;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,21 +35,31 @@ public class PropertyServiceImplementation implements PropertyService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ImageService imageService;
+
     @Override
     public List<PropertyDTO> findAllProperties() {
         return propertyRepository.findAll().stream().map(PropertyMapper::PropertyToPropertyDTO).collect(Collectors.toList());
     }
 
+    private Property findPropertyEntityById(Long propertyId) {
+        Property property = propertyRepository
+                .findById(propertyId).orElseThrow(() -> new EntityAlreadyExistsException("Property does not exist"));
+        return property;
+    }
+
     @Override
     public PropertyDTO findPropertyById(Long propertyId) {
-        Property property = propertyRepository.findById(propertyId).orElse(null);
-        return PropertyMapper.PropertyToPropertyDTO(property);
+        return PropertyMapper.PropertyToPropertyDTO(findPropertyEntityById(propertyId));
     }
 
     @Override
     public PropertyDTO createProperty(PropertyDTO propertyDTO) {
 
         Property propertyEntity = PropertyMapper.PropertyDTOToProperty(propertyDTO);
+
+
         PropertyType propertyType = propertyTypeRepository.findByName(PropertyTypeEnum.valueOf(
                 propertyDTO.getPropertyType()
         ));
@@ -51,10 +67,13 @@ public class PropertyServiceImplementation implements PropertyService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User agent = userService.findUserByUsername(username);
 
-        propertyEntity.setAgent(agent);
-
-        propertyEntity.setPropertyType(propertyType);
-        Property newProperty = propertyRepository.save(propertyEntity);
+        Property newProperty = propertyRepository.save(
+                propertyEntity
+                        .toBuilder()
+                        .propertyType(propertyType)
+                        .agent(agent)
+                        .build()
+        );
 
 
         return PropertyMapper.PropertyToPropertyDTO(newProperty);
@@ -64,8 +83,15 @@ public class PropertyServiceImplementation implements PropertyService {
     public PropertyDTO updateProperty(PropertyDTO propertyDTO) {
         Property property1 = propertyRepository.findById(propertyDTO.getId()).orElse(null);
         if (property1 != null) {
-            property1.setId(propertyDTO.getId());
-            Property savedProperty = propertyRepository.save(property1);
+
+            Property propertyEntity = PropertyMapper.PropertyDTOToProperty(propertyDTO);
+            Property savedProperty = propertyRepository.save(propertyEntity
+                    .toBuilder()
+                    .id(property1.getId())
+                    .propertyType(property1.getPropertyType())
+                    .agent(property1.getAgent())
+                    .build()
+            );
             return PropertyMapper.PropertyToPropertyDTO(savedProperty);
         }
         return null;
@@ -73,10 +99,22 @@ public class PropertyServiceImplementation implements PropertyService {
 
     @Override
     public Boolean deleteProperty(Long propertyId) {
-        propertyRepository.deleteById(propertyId);
-
-        if (findPropertyById(propertyId) == null)
+        Property property = findPropertyEntityById(propertyId);
+        propertyRepository.delete(property);
+        if (propertyRepository.findById(propertyId).orElse(null) == null) {
             return true;
+        }
         return false;
     }
+
+    @Override
+    public List<ImagesDTO> uploadPropertyImages(MultipartFile image, Long propertyId) {
+        Property property = findPropertyEntityById(propertyId);
+
+        ImagesDTO savedImage = imageService.createImage(image, property);
+
+        return savedImage != null ? imageService.findAllImages() : null;
+    }
+
+
 }
