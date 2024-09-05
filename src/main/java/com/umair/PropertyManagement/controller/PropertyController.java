@@ -36,16 +36,18 @@ public class PropertyController {
         PropertyDTO createdProperty = propertyService.createProperty(propertyDTO);
         return ResponseEntity.ok(createdProperty);
     }
+
     @PutMapping("")
     public ResponseEntity<PropertyDTO> update(@RequestBody(required = false) PropertyDTO propertyDTO) {
         PropertyDTO updatedProperty = propertyService.updateProperty(propertyDTO);
         return ResponseEntity.ok(updatedProperty);
     }
+
     @DeleteMapping("{deleteId}")
     public ResponseEntity<?> delete(@PathVariable Long deleteId) {
         boolean isDeleted = propertyService.deleteProperty(deleteId);
 
-        if(isDeleted)
+        if (isDeleted)
             return ResponseEntity.ok(" Deleted");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem in Deleting The New ");
     }
@@ -54,5 +56,12 @@ public class PropertyController {
     @PostMapping("{propertyId}/images")
     public ResponseEntity<List<ImagesDTO>> createImages(@RequestParam("file") MultipartFile multipartFile, @PathVariable Long propertyId) {
         return ResponseEntity.ok(propertyService.uploadPropertyImages(multipartFile, propertyId));
+    }
+
+    @DeleteMapping("{propertyId}/images/{imageId}")
+    public ResponseEntity<?> createImages(@PathVariable Long propertyId, @PathVariable Long imageId) {
+        if (propertyService.deletePropertyImages(propertyId, imageId))
+            return ResponseEntity.ok("Image Deleted");
+        return ResponseEntity.badRequest().body("Something wrong with deletion");
     }
 }

@@ -1,5 +1,6 @@
 package com.umair.PropertyManagement.model.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data

@@ -25,10 +25,9 @@ public class RoleMapper {
         Set<Role> roles = Arrays.stream(roleDTO.getRoles().split(","))
                 .map(String::trim)
                 .map(roleName -> {
-                    Role role = roleRepository.findByName(RoleTypeEnum.valueOf(roleName.toUpperCase()));
-                    if (role == null) {
-                        throw new IllegalArgumentException("Invalid role type: " + roleName);
-                    }
+                    Role role = roleRepository.findByName(RoleTypeEnum.valueOf(roleName.toUpperCase()))
+                            .orElseThrow(() -> new IllegalArgumentException("Invalid role type: " + roleName));
+
                     return role;
                 })
                 .collect(Collectors.toSet());

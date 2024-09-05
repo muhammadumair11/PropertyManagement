@@ -90,9 +90,10 @@ public class PropertyServiceImplementation implements PropertyService {
                     .id(property1.getId())
                     .propertyType(property1.getPropertyType())
                     .agent(property1.getAgent())
+                    .images(property1.getImages())
                     .build()
             );
-            return PropertyMapper.PropertyToPropertyDTO(savedProperty);
+            return PropertyMapper.PropertyToPropertyDTO(findPropertyEntityById(savedProperty.getId()));
         }
         return null;
     }
@@ -114,6 +115,13 @@ public class PropertyServiceImplementation implements PropertyService {
         ImagesDTO savedImage = imageService.createImage(image, property);
 
         return savedImage != null ? imageService.findAllImages() : null;
+    }
+
+    @Override
+    public Boolean deletePropertyImages(Long propertyId, Long imageId) {
+        return imageService.deleteImage(imageId);
+
+
     }
 
 

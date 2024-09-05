@@ -8,6 +8,7 @@ import com.umair.PropertyManagement.model.dto.ImagesDTO;
 import com.umair.PropertyManagement.repository.ImageRepository;
 import com.umair.PropertyManagement.services.ImageService;
 import com.umair.PropertyManagement.services.ImageService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,7 @@ public class ImageServiceImplementation implements ImageService {
     @Autowired
     ImageRepository imageRepository;
 
-    private static final String UPLOAD_DIR = "uploads/";
+    private static final String UPLOAD_DIR = "/uploads/";
 
     static {
         File uploadDir = new File(UPLOAD_DIR);
@@ -46,14 +47,13 @@ public class ImageServiceImplementation implements ImageService {
     @Override
     public ImagesDTO createImage(MultipartFile image, Property property) {
 
-        if(image.isEmpty()) {
+        if (image.isEmpty()) {
             throw new EntityAlreadyExistsException("File not available");
         }
 
         String filePath = UPLOAD_DIR.concat(Objects.requireNonNull(image.getOriginalFilename()));
 
-        File destinationFile = new File(filePath);
-        System.out.println(destinationFile.getName());
+        File destinationFile = new File(System.getProperty("user.dir") + filePath);
         try {
             image.transferTo(destinationFile);
         } catch (IOException e) {
@@ -84,9 +84,26 @@ public class ImageServiceImplementation implements ImageService {
 
     @Override
     public Boolean deleteImage(Long imageId) {
-        imageRepository.deleteById(imageId);
-        if (findImageById(imageId) == null)
-            return true;
-        return false;
+        Image image = findImageById(imageId);
+
+        if (image != null) {
+            String filePath = System.getProperty("user.dir") + image.getUrl();
+
+            // Create a File object
+            File file = new File(filePath);
+
+            // Delete the file
+            if (file.exists() && file.delete()) {
+                imageRepository.deleteById(imageId);
+
+                return findImageById(imageId) == null;
+            } else {
+                throw new EntityNotFoundException("Failed to delete file: " + filePath);
+            }
+        } else {
+            throw new EntityAlreadyExistsException("Image not found");
+        }
     }
+
+
 }

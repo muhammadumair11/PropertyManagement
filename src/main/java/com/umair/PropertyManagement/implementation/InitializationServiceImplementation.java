@@ -88,7 +88,7 @@ public class InitializationServiceImplementation implements InitializationServic
         RoleTypeEnum[] roleTypes = RoleTypeEnum.values();
 
         for (RoleTypeEnum roleType : roleTypes) {
-            if (roleRepository.findByName(roleType) == null) {
+            if (roleRepository.findByName(roleType).isEmpty()) {
                 roleRepository.save(new Role(roleType));
             }
         }
