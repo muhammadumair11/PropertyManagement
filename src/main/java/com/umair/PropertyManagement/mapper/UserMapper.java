@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
-import com.umair.PropertyManagement.model.dto.RoleDTO;
-import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.dto.RoleDTO;
+import com.umair.PropertyManagement.dto.UserDTO;
 import com.umair.PropertyManagement.model.Role;
 import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.repository.RoleRepository;
@@ -18,7 +18,7 @@ public class UserMapper {
         userDTO.setUsername(user.getUsername());
         userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
-        userDTO.setRoles(RoleMapper.RoleToRoleDTO(user.getRoles()).getRoles());
+        userDTO.setRoles(RoleMapper.RoleToRoleDTO(user.getRoles()).getRole());
         return userDTO;
     }
 

@@ -1,4 +1,4 @@
-package com.umair.PropertyManagement.model.dto;
+package com.umair.PropertyManagement.dto;
 
 import lombok.Builder;
 import lombok.Data;

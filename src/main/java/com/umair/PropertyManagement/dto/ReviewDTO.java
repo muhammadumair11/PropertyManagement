@@ -1,4 +1,4 @@
-package com.umair.PropertyManagement.model.dto;
+package com.umair.PropertyManagement.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.umair.PropertyManagement.model.Property;
@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDTO {
+    private Long id;
     private Integer rating;
     private String comment;
+    private Long userId;
+    private Long propertyId;
 }

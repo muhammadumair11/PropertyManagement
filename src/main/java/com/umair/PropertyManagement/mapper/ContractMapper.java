@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Contract;
-import com.umair.PropertyManagement.model.dto.ContractDTO;
+import com.umair.PropertyManagement.dto.ContractDTO;
 
 import java.util.stream.Collectors;
 

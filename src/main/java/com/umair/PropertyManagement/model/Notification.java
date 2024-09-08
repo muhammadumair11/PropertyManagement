@@ -22,7 +22,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     String message;
     Date notificationDate;
 

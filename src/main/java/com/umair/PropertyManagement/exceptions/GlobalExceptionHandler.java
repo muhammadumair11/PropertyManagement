@@ -30,4 +30,9 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<Object> handleTokenExpiredException(DataIntegrityViolationException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
 }

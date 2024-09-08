@@ -1,8 +1,6 @@
-package com.umair.PropertyManagement.model.dto;
+package com.umair.PropertyManagement.dto;
 
-import com.umair.PropertyManagement.model.ListingStatus;
-import com.umair.PropertyManagement.model.Property;
-import jakarta.persistence.*;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

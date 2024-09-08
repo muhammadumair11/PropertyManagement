@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ListingStatusRepository extends JpaRepository<ListingStatus, Long> {
-    ListingStatus findByName(ListingStatusesEnum listingStatusesEnum);
+    ListingStatus findByName(String listingStatus);
 }

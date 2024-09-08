@@ -1,14 +1,13 @@
 package com.umair.PropertyManagement.controller;
 
-import com.umair.PropertyManagement.mapper.PropertyMapper;
-import com.umair.PropertyManagement.model.Property;
-import com.umair.PropertyManagement.model.dto.ImagesDTO;
-import com.umair.PropertyManagement.model.dto.PropertyDTO;
-import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.dto.ImagesDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyRequestDTO;
 import com.umair.PropertyManagement.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,14 +31,14 @@ public class PropertyController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody PropertyDTO propertyDTO) {
+    public ResponseEntity<?> create(@Validated @RequestBody PropertyRequestDTO propertyDTO) {
         PropertyDTO createdProperty = propertyService.createProperty(propertyDTO);
         return ResponseEntity.ok(createdProperty);
     }
 
     @PutMapping("")
-    public ResponseEntity<PropertyDTO> update(@RequestBody(required = false) PropertyDTO propertyDTO) {
-        PropertyDTO updatedProperty = propertyService.updateProperty(propertyDTO);
+    public ResponseEntity<PropertyDTO> update(@RequestBody PropertyRequestDTO propertyRequestDTO) {
+        PropertyDTO updatedProperty = propertyService.updateProperty(propertyRequestDTO);
         return ResponseEntity.ok(updatedProperty);
     }
 

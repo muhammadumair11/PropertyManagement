@@ -1,11 +1,12 @@
 package com.umair.PropertyManagement.auth;
 
-import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.dto.UserDTO;
 import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,6 +31,13 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/currentuser")
+    public  ResponseEntity<Object> current() {
+        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated())
+            System.out.println("User Logged In");
+        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
 }

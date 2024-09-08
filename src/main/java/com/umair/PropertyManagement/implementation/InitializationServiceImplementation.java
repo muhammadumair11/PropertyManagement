@@ -5,21 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umair.PropertyManagement.Enums.ListingStatusesEnum;
 import com.umair.PropertyManagement.Enums.PropertyTypeEnum;
 import com.umair.PropertyManagement.Enums.RoleTypeEnum;
-import com.umair.PropertyManagement.auth.AuthService;
-import com.umair.PropertyManagement.mapper.PropertyMapper;
+import com.umair.PropertyManagement.dto.PropertyTypeDTO;
 import com.umair.PropertyManagement.model.ListingStatus;
 import com.umair.PropertyManagement.model.PropertyType;
-import com.umair.PropertyManagement.model.User;
-import com.umair.PropertyManagement.model.dto.PropertyDTO;
-import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.dto.UserDTO;
 import com.umair.PropertyManagement.exceptions.EntityAlreadyExistsException;
 import com.umair.PropertyManagement.model.Role;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyRequestDTO;
 import com.umair.PropertyManagement.repository.ListingStatusRepository;
 import com.umair.PropertyManagement.repository.PropertyRepository;
 import com.umair.PropertyManagement.repository.PropertyTypeRepository;
 import com.umair.PropertyManagement.repository.RoleRepository;
 import com.umair.PropertyManagement.services.InitializationService;
 import com.umair.PropertyManagement.services.PropertyService;
+import com.umair.PropertyManagement.services.PropertyTypeService;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -38,7 +37,7 @@ public class InitializationServiceImplementation implements InitializationServic
     @Autowired
     RoleRepository roleRepository;
     @Autowired
-    PropertyTypeRepository propertyTypeRepository;
+    PropertyTypeService propertyTypeService;
     @Autowired
     ListingStatusRepository listingStatusRepository;
 
@@ -74,8 +73,10 @@ public class InitializationServiceImplementation implements InitializationServic
 
             // In the end properties are inserted from json with currently logged in user as agent
             loadProperties();
-
+            if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated())
+                System.out.println("User Logged In");
             System.out.println("Ready Now");
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,8 +89,8 @@ public class InitializationServiceImplementation implements InitializationServic
         RoleTypeEnum[] roleTypes = RoleTypeEnum.values();
 
         for (RoleTypeEnum roleType : roleTypes) {
-            if (roleRepository.findByName(roleType).isEmpty()) {
-                roleRepository.save(new Role(roleType));
+            if (roleRepository.findByName(roleType.name()).isEmpty()) {
+                roleRepository.save(new Role(roleType.name()));
             }
         }
     }
@@ -99,8 +100,8 @@ public class InitializationServiceImplementation implements InitializationServic
         PropertyTypeEnum[] propertyTypeEnums = PropertyTypeEnum.values();
 
         for (PropertyTypeEnum propertyTypeEnum : propertyTypeEnums) {
-            if (propertyTypeRepository.findByName(propertyTypeEnum) == null) {
-                propertyTypeRepository.save(new PropertyType(propertyTypeEnum));
+            if (propertyTypeService.findByName(propertyTypeEnum.name()) == null) {
+                propertyTypeService.createPropertyType(new PropertyTypeDTO(propertyTypeEnum.name()));
             }
         }
     }
@@ -109,8 +110,8 @@ public class InitializationServiceImplementation implements InitializationServic
         ListingStatusesEnum[] listingStatusesEnums = ListingStatusesEnum.values();
 
         for (ListingStatusesEnum listingStatusesEnum : listingStatusesEnums) {
-            if (listingStatusRepository.findByName(listingStatusesEnum) == null) {
-                listingStatusRepository.save(new ListingStatus(listingStatusesEnum));
+            if (listingStatusRepository.findByName(listingStatusesEnum.name()) == null) {
+                listingStatusRepository.save(new ListingStatus(listingStatusesEnum.name()));
             }
         }
     }
@@ -134,9 +135,9 @@ public class InitializationServiceImplementation implements InitializationServic
 
     private void loadProperties() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<PropertyDTO> propertyDTOS = objectMapper.readValue(
+        List<PropertyRequestDTO> propertyDTOS = objectMapper.readValue(
                 new ClassPathResource("property.json").getInputStream(),
-                new TypeReference<List<PropertyDTO>>() {
+                new TypeReference<List<PropertyRequestDTO>>() {
                 }
         );
         propertyDTOS.forEach(propertyDTO -> {

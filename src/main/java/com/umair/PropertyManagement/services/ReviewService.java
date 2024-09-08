@@ -1,13 +1,14 @@
 package com.umair.PropertyManagement.services;
 
+import com.umair.PropertyManagement.dto.ReviewDTO;
 import com.umair.PropertyManagement.model.Review;
 
 import java.util.List;
 
 public interface ReviewService {
-    List<Review> findAllReviews();
-    Review findReviewById(Long reviewId);
-    Review createReview(Review review);
-    Review updateReview(Review review);
+    List<ReviewDTO> findAllReviews();
+    ReviewDTO findReviewById(Long reviewId);
+    ReviewDTO createReview(ReviewDTO reviewDTO);
+    ReviewDTO updateReview(ReviewDTO reviewDTO);
     Boolean deleteReview(Long reviewId);
 }

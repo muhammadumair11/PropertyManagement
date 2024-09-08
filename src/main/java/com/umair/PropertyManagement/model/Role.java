@@ -18,15 +18,14 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
-    RoleTypeEnum name;
+    @Column(unique = true)
+    String name;
 
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     Set<User> users;
 
-    public Role(RoleTypeEnum name) {
+    public Role(String name) {
         this.name = name;
     }
 }

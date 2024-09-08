@@ -1,6 +1,6 @@
-package com.umair.PropertyManagement.model.dto;
+package com.umair.PropertyManagement.dto.propertydtos;
 
-import com.umair.PropertyManagement.model.*;
+import com.umair.PropertyManagement.dto.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.umair.PropertyManagement.services;
 
 import com.umair.PropertyManagement.model.Image;
 import com.umair.PropertyManagement.model.Property;
-import com.umair.PropertyManagement.model.dto.ImagesDTO;
+import com.umair.PropertyManagement.dto.ImagesDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

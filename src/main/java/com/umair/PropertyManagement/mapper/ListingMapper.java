@@ -1,10 +1,8 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Listing;
-import com.umair.PropertyManagement.model.dto.ListingDTO;
-import com.umair.PropertyManagement.model.dto.ListingStatusesDTO;
-
-import java.util.Date;
+import com.umair.PropertyManagement.dto.ListingDTO;
+import com.umair.PropertyManagement.dto.ListingStatusesDTO;
 
 public class ListingMapper {
 
@@ -16,7 +14,7 @@ public class ListingMapper {
 
         // Convert ListingStatus to its string representation if needed
         if (listing.getListingStatus() != null) {
-            listingDTO.setListingStatus(listing.getListingStatus().getName().name()); // Adjust if necessary
+            listingDTO.setListingStatus(listing.getListingStatus().getName()); // Adjust if necessary
         }
 
         // Convert Property to PropertyDTO
@@ -35,7 +33,7 @@ public class ListingMapper {
 
         // Set ListingStatus if it’s provided as a string or needs conversion
         if (listingDTO.getListingStatus() != null) {
-            listing.setListingStatus(ListingStatusMapper.ListingStatusesDTOToListingStatus(new ListingStatusesDTO(listingDTO.getListingStatus())));
+            listing.setListingStatus(ListingStatusMapper.ListingStatusesDTOToListingStatus(new ListingStatusesDTO(listingDTO.getListingStatus().toUpperCase())));
         }
 
         return listing;

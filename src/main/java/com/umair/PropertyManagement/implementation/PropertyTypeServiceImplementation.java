@@ -2,7 +2,7 @@ package com.umair.PropertyManagement.implementation;
 
 import com.umair.PropertyManagement.mapper.PropertyTypeMapper;
 import com.umair.PropertyManagement.model.PropertyType;
-import com.umair.PropertyManagement.model.dto.PropertyTypeDTO;
+import com.umair.PropertyManagement.dto.PropertyTypeDTO;
 import com.umair.PropertyManagement.repository.PropertyTypeRepository;
 import com.umair.PropertyManagement.services.PropertyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +24,46 @@ public class PropertyTypeServiceImplementation implements PropertyTypeService {
     }
 
     @Override
-    public PropertyType findPropertyTypeById(Long propertyTypeId) {
-        return propertyTypeRepository.findById(propertyTypeId).orElse(null);
+    public PropertyTypeDTO findPropertyTypeById(Long propertyTypeId) {
+        return PropertyTypeMapper.PropertyTypeToPropertyTypeDTO(propertyTypeRepository.findById(propertyTypeId).orElse(null));
     }
 
     @Override
-    public PropertyType createPropertyType(PropertyType propertyType) {
-        return propertyTypeRepository.save(propertyType);
+    public PropertyTypeDTO findByName(String propertyType) {
+        return PropertyTypeMapper.PropertyTypeToPropertyTypeDTO(propertyTypeRepository.findByName(propertyType));
     }
 
     @Override
-    public PropertyType updatePropertyType(PropertyType propertyType) {
-        PropertyType propertyType1 = findPropertyTypeById(propertyType.getId());
+    public PropertyTypeDTO createPropertyType(PropertyTypeDTO propertyTypeDTO) {
+        PropertyType savedPropertyType = propertyTypeRepository.save(
+                PropertyType
+                        .builder()
+                        .name(propertyTypeDTO.getPropertyType().toUpperCase())
+                        .build()
+        );
 
-        if(propertyType1 != null) {
-            propertyType.setId(propertyType1.getId());
-            return propertyTypeRepository.save(propertyType);
+        return PropertyTypeMapper.PropertyTypeToPropertyTypeDTO(savedPropertyType);
+    }
+
+    @Override
+    public PropertyTypeDTO updatePropertyType(PropertyTypeDTO propertyTypeDTO) {
+        PropertyType propertyType1 = propertyTypeRepository
+                .findById(
+                        propertyTypeDTO
+                                .getId()
+                )
+                .orElseThrow(() -> new RuntimeException("Property Type doesn't exist"));
+
+        if (propertyType1 != null) {
+            propertyType1.setId(propertyTypeDTO.getId());
+            PropertyType propertyTypeEntity = propertyTypeRepository.save(
+                    propertyType1
+                            .toBuilder()
+                            .id(propertyTypeDTO.getId())
+                            .name(propertyTypeDTO.getPropertyType().toUpperCase())
+                            .build()
+            );
+            return PropertyTypeMapper.PropertyTypeToPropertyTypeDTO(propertyTypeEntity);
         }
         return null;
     }
@@ -47,7 +71,7 @@ public class PropertyTypeServiceImplementation implements PropertyTypeService {
     @Override
     public Boolean deletePropertyType(Long propertyTypeId) {
         propertyTypeRepository.deleteById(propertyTypeId);
-        if(findPropertyTypeById(propertyTypeId) == null)
+        if (findPropertyTypeById(propertyTypeId) == null)
             return true;
         return false;
     }

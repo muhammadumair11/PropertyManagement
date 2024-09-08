@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.services;
 
 import com.umair.PropertyManagement.model.User;
-import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.dto.UserDTO;
 
 import java.util.List;
 

@@ -3,14 +3,15 @@ package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.Enums.PropertyTypeEnum;
 import com.umair.PropertyManagement.model.PropertyType;
-import com.umair.PropertyManagement.model.dto.PropertyTypeDTO;
+import com.umair.PropertyManagement.dto.PropertyTypeDTO;
 
 public class PropertyTypeMapper {
     public static PropertyTypeDTO PropertyTypeToPropertyTypeDTO(PropertyType propertyType) {
         if (propertyType == null) return null;
 
         PropertyTypeDTO propertyTypeDTO = new PropertyTypeDTO();
-        propertyTypeDTO.setPropertyType(propertyType.getName().name());
+        propertyTypeDTO.setId(propertyType.getId());
+        propertyTypeDTO.setPropertyType(propertyType.getName());
         return propertyTypeDTO;
     }
 
@@ -19,12 +20,7 @@ public class PropertyTypeMapper {
         if (propertyTypeDTO.getPropertyType() == null) return null;
 
         PropertyType propertyType = new PropertyType();
-        propertyType.setName(
-                PropertyTypeEnum
-                        .valueOf(
-                                propertyTypeDTO
-                                        .getPropertyType()
-                                        .toUpperCase()));
+        propertyType.setName(propertyTypeDTO.getPropertyType().toUpperCase());
 
         return propertyType;
     }

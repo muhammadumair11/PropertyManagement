@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Payment;
-import com.umair.PropertyManagement.model.dto.PaymentDTO;
+import com.umair.PropertyManagement.dto.PaymentDTO;
 
 public class PaymentMapper {
 

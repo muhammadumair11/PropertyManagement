@@ -2,14 +2,14 @@
 
     import com.umair.PropertyManagement.Enums.RoleTypeEnum;
     import com.umair.PropertyManagement.mapper.RoleMapper;
-    import com.umair.PropertyManagement.mapper.UserMapper;
+    import com.umair.PropertyManagement.model.PropertyType;
     import com.umair.PropertyManagement.model.Role;
     import com.umair.PropertyManagement.model.User;
-    import com.umair.PropertyManagement.model.dto.RoleDTO;
+    import com.umair.PropertyManagement.dto.RoleDTO;
     import com.umair.PropertyManagement.repository.RoleRepository;
     import com.umair.PropertyManagement.repository.UserRepository;
     import com.umair.PropertyManagement.services.RoleService;
-    import com.umair.PropertyManagement.services.UserService;
+    import jakarta.persistence.EntityNotFoundException;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Service;
 
@@ -22,8 +22,6 @@
 
         @Autowired
         RoleRepository roleRepository;
-        @Autowired
-        UserRepository userRepository;
 
         @Override
         public List<RoleDTO> findAllRoles() {
@@ -31,55 +29,43 @@
         }
 
         @Override
-        public Role findRoleById(Long roleId) {
-            return roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role does not exist"));
+        public RoleDTO findRoleById(Long roleId) {
+            Role role = roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role does not exist"));
+            return RoleMapper.RoleToRoleDTO(Set.of(role));
         }
 
         @Override
-        public Role findRoleByName(RoleTypeEnum name) {
-            return roleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Role does not exists"));
+        public Role findRoleByName(String rolename) {
+            return roleRepository.findByName(rolename).orElseThrow(() -> new RuntimeException("Role does not exists"));
         }
 
         @Override
-        public RoleDTO createRole(String rolename, Long userId) {
-            String roleType = rolename;
-
-            if (roleType == null || roleType.trim().isEmpty()) {
-                roleType = RoleTypeEnum.BUYER.name();
-            }
-
-
-            Set<Role> roles = RoleMapper.RoleDTOToRole(new RoleDTO(roleType), roleRepository);
-
-            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User doesnt' exist"));
-    //        System.out.println(roleType);
-    //        System.out.println(roleType);
-    //        System.out.println( user.getUsername());
-            roles.forEach(role -> System.out.println(role.getName()));
-
-
-            roles.forEach(role -> {
-                role.getUsers().add(user);
-            });
-            Set<Role> savedRoles = roles
-                    .stream()
-                    .map(roleRepository::save)
-                    .collect(Collectors.toSet());
-
-
-
-
-            return RoleMapper.RoleToRoleDTO(savedRoles);
+        public RoleDTO createRole(RoleDTO roleDTO) {
+            Role savedRole = roleRepository.save(
+                    Role
+                            .builder()
+                            .name(roleDTO.getRole().toUpperCase())
+                            .build()
+            );
+            return RoleMapper.RoleToRoleDTO(Set.of(savedRole));
         }
 
         @Override
-        public Role updateRole(Role role) {
-            Role existingRole = findRoleById(role.getId());
+        public RoleDTO updateRole(RoleDTO roleDTO) {
+            Role existingRole = roleRepository.findById(roleDTO.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Role doesn't exists"));
 
             if (existingRole != null) {
-                role.setId(existingRole.getId());
-                return roleRepository.save(role);
+                Role savedRole = roleRepository.save(
+                        existingRole
+                                .toBuilder()
+                                .name(roleDTO.getRole().toUpperCase())
+                                .build()
+                );
+
+                return RoleMapper.RoleToRoleDTO(Set.of(savedRole));
             }
+
 
             return null;
         }

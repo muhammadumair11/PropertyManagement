@@ -1,10 +1,10 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Image;
-import com.umair.PropertyManagement.model.Inquiry;
 import com.umair.PropertyManagement.model.Property;
-import com.umair.PropertyManagement.model.Review;
-import com.umair.PropertyManagement.model.dto.PropertyDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyRequestDTO;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +53,7 @@ public class PropertyMapper {
         return propertyDTO;
     }
 
-    public static Property PropertyDTOToProperty(PropertyDTO propertyDTO) {
+    public static Property PropertyDTOToProperty(PropertyRequestDTO propertyDTO) {
         if (propertyDTO == null) return null;
 
         Property property = new Property();
@@ -66,30 +66,14 @@ public class PropertyMapper {
         // Set the Address
         property.setAddress(AddressMapper.AddressDTOToAddress(propertyDTO.getAddress()));
 
-        // Set the Inquiries
-        if (propertyDTO.getInquiries() != null && !propertyDTO.getInquiries().isEmpty()) {
-            List<Inquiry> inquiries = propertyDTO.getInquiries().stream().map(InquiryMapper::InquiryDTOToInquiry).toList();
-            property.setInquiries(inquiries);
-        }
 
-        // Set the Contract
 
-        property.setContract(ContractMapper.ContractDTOToContract(propertyDTO.getContract()));
 
-        // Set the Listing
-        property.setListing(ListingMapper.ListingDTOToListing(propertyDTO.getListing()));
 
         // Set the Images
         if (propertyDTO.getImages() != null) {
             List<Image> images = propertyDTO.getImages().stream().map(ImageMapper::ImagesDTOToImage).toList();
             property.setImages(images);
-        }
-
-        // Set the Reviews
-
-        if (propertyDTO.getReviews() != null) {
-            List<Review> reviews = propertyDTO.getReviews().stream().map(ReviewMapper::ReviewDTOToReview).toList();
-            property.setReviews(reviews);
         }
 
 

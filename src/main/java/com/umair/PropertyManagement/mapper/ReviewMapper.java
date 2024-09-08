@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Review;
-import com.umair.PropertyManagement.model.dto.ReviewDTO;
+import com.umair.PropertyManagement.dto.ReviewDTO;
 
 public class ReviewMapper {
 
@@ -9,8 +9,11 @@ public class ReviewMapper {
         if (review == null) return null;
 
         ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setId(review.getId());
         reviewDTO.setRating(review.getRating());
         reviewDTO.setComment(review.getComment());
+        reviewDTO.setUserId(review.getUser().getId());
+        reviewDTO.setPropertyId(review.getProperty().getId());
 
         return reviewDTO;
     }

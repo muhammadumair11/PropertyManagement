@@ -2,14 +2,13 @@ package com.umair.PropertyManagement.implementation;
 
 import com.umair.PropertyManagement.Enums.PropertyTypeEnum;
 import com.umair.PropertyManagement.exceptions.EntityAlreadyExistsException;
-import com.umair.PropertyManagement.mapper.InquiryMapper;
 import com.umair.PropertyManagement.mapper.PropertyMapper;
-import com.umair.PropertyManagement.model.Image;
 import com.umair.PropertyManagement.model.Property;
 import com.umair.PropertyManagement.model.PropertyType;
 import com.umair.PropertyManagement.model.User;
-import com.umair.PropertyManagement.model.dto.ImagesDTO;
-import com.umair.PropertyManagement.model.dto.PropertyDTO;
+import com.umair.PropertyManagement.dto.ImagesDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyRequestDTO;
 import com.umair.PropertyManagement.repository.PropertyRepository;
 import com.umair.PropertyManagement.repository.PropertyTypeRepository;
 import com.umair.PropertyManagement.services.ImageService;
@@ -55,14 +54,14 @@ public class PropertyServiceImplementation implements PropertyService {
     }
 
     @Override
-    public PropertyDTO createProperty(PropertyDTO propertyDTO) {
+    public PropertyDTO createProperty(PropertyRequestDTO propertyRequestDTO) {
 
-        Property propertyEntity = PropertyMapper.PropertyDTOToProperty(propertyDTO);
+        Property propertyEntity = PropertyMapper.PropertyDTOToProperty(propertyRequestDTO);
 
 
-        PropertyType propertyType = propertyTypeRepository.findByName(PropertyTypeEnum.valueOf(
-                propertyDTO.getPropertyType()
-        ));
+        PropertyType propertyType = propertyTypeRepository.findByName(
+                propertyRequestDTO.getPropertyType()
+        );
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User agent = userService.findUserByUsername(username);
@@ -80,20 +79,21 @@ public class PropertyServiceImplementation implements PropertyService {
     }
 
     @Override
-    public PropertyDTO updateProperty(PropertyDTO propertyDTO) {
-        Property property1 = propertyRepository.findById(propertyDTO.getId()).orElse(null);
+    public PropertyDTO updateProperty(PropertyRequestDTO propertyRequestDTO) {
+        Property property1 = propertyRepository.findById(propertyRequestDTO.getId()).orElse(null);
         if (property1 != null) {
 
-            Property propertyEntity = PropertyMapper.PropertyDTOToProperty(propertyDTO);
+            Property propertyEntity = PropertyMapper.PropertyDTOToProperty(propertyRequestDTO);
             Property savedProperty = propertyRepository.save(propertyEntity
                     .toBuilder()
                     .id(property1.getId())
                     .propertyType(property1.getPropertyType())
                     .agent(property1.getAgent())
                     .images(property1.getImages())
+                    .reviews(property1.getReviews())
                     .build()
             );
-            return PropertyMapper.PropertyToPropertyDTO(findPropertyEntityById(savedProperty.getId()));
+            return PropertyMapper.PropertyToPropertyDTO(savedProperty);
         }
         return null;
     }

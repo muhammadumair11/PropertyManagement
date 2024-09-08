@@ -1,9 +1,9 @@
 package com.umair.PropertyManagement.services;
 
 
-import com.umair.PropertyManagement.model.Property;
-import com.umair.PropertyManagement.model.dto.ImagesDTO;
-import com.umair.PropertyManagement.model.dto.PropertyDTO;
+import com.umair.PropertyManagement.dto.ImagesDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyDTO;
+import com.umair.PropertyManagement.dto.propertydtos.PropertyRequestDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public interface PropertyService {
 
     PropertyDTO findPropertyById(Long propertyId);
 
-    PropertyDTO createProperty(PropertyDTO propertyDTO);
+    PropertyDTO createProperty(PropertyRequestDTO propertyRequestDTO);
 
-    PropertyDTO updateProperty(PropertyDTO propertyDTO);
+    PropertyDTO updateProperty(PropertyRequestDTO propertyRequestDTO);
 
     Boolean deleteProperty(Long propertyId);
 

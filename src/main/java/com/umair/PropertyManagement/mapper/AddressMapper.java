@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Address;
-import com.umair.PropertyManagement.model.dto.AddressDTO;
+import com.umair.PropertyManagement.dto.AddressDTO;
 
 public class AddressMapper {
     public static AddressDTO AddressToAddressDTO(Address address) {

@@ -1,5 +1,9 @@
 package com.umair.PropertyManagement.controller;
 
+import com.umair.PropertyManagement.dto.ListingStatusesDTO;
+import com.umair.PropertyManagement.dto.PropertyTypeDTO;
+import com.umair.PropertyManagement.services.ListingStatusService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,37 +11,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/listing-statuses")
 public class ListingStatusController {
-//
-//    @GetMapping("")
-//    public ResponseEntity<List<>> findAll() {
-//        return ResponseEntity.ok();
-//    }
-//    @GetMapping("{}")
-//    public ResponseEntity<> findById() {
-//        return ResponseEntity.ok();
-//    }
-//    @PostMapping("")
-//    public ResponseEntity<?> create() {
-//
-//        if( != null)
-//            return ResponseEntity.ok("New  Created");
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("New  is Not Created");
-//    }
-//    @PutMapping("")
-//    public ResponseEntity<?> update() {
-//
-//        if()
-//            return ResponseEntity.ok(" Updated");
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem in Updating The New ");
-//    }
-//    @DeleteMapping("{}")
-//    public ResponseEntity<?> delete() {
-//        boolean isDeleted =
-//
-//        if(isDeleted)
-//            return ResponseEntity.ok(" Deleted");
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem in Deleting The New ");
-//    }
+
+    @Autowired
+    ListingStatusService listingStatusService;
+
+    @GetMapping("")
+    public ResponseEntity<List<ListingStatusesDTO>> findAll() {
+        return ResponseEntity.ok(listingStatusService.findAllListingStatuses());
+    }
+    @GetMapping("{listingStatusId}")
+    public ResponseEntity<ListingStatusesDTO> findById(@PathVariable Long listingStatusId) {
+        return ResponseEntity.ok(listingStatusService.findListingStatusById(listingStatusId));
+    }
+    @PostMapping("")
+    public ResponseEntity<ListingStatusesDTO> create(@RequestBody ListingStatusesDTO propertyTypeDTO) {
+        return ResponseEntity.ok(listingStatusService.createListingStatus(propertyTypeDTO));
+    }
+    @PutMapping("")
+    public ResponseEntity<?> update(@RequestBody ListingStatusesDTO propertyTypeDTO) {
+        ;       return ResponseEntity.ok(listingStatusService.updateListingStatus(propertyTypeDTO));
+    }
+    @DeleteMapping("{listingStatusId}")
+    public ResponseEntity<?> delete(@PathVariable Long listingStatusId) {
+        boolean isDeleted = listingStatusService.deleteListingStatus(listingStatusId);
+
+        if (isDeleted)
+            return ResponseEntity.ok(" Deleted");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem in Deleting Listing Status");
+    }
 }

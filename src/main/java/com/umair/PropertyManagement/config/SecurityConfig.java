@@ -39,7 +39,9 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers("/h2-console/**", "/api/register", "/api/login").permitAll()
                                 .anyRequest().permitAll()
+
                 )
+//                .anonymous(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

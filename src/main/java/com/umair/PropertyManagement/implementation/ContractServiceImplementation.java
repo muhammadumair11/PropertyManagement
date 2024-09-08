@@ -1,5 +1,6 @@
 package com.umair.PropertyManagement.implementation;
 
+import com.umair.PropertyManagement.dto.ContractDTO;
 import com.umair.PropertyManagement.model.Contract;
 import com.umair.PropertyManagement.repository.ContractRepository;
 import com.umair.PropertyManagement.services.ContractService;
@@ -14,36 +15,31 @@ public class ContractServiceImplementation implements ContractService {
     @Autowired
     ContractRepository contractRepository;
 
+
     @Override
-    public List<Contract> findAllContracts() {
-        return contractRepository.findAll();
+    public List<ContractDTO> findAllContracts() {
+        return List.of();
     }
 
     @Override
-    public Contract findContractById(Long contractId) {
-        return contractRepository.findById(contractId).orElse(null);
+    public ContractDTO findContractById(Long contractId) {
+        return null;
     }
 
     @Override
-    public Contract createContract(Contract contract) {
-        return contractRepository.save(contract);
+    public ContractDTO createContract(ContractDTO contract) {
+        return null;
     }
 
     @Override
-    public Contract updateContract(Contract contract) {
-        Contract contract1 = findContractById(contract.getId());
-
-        if(contract1 != null) {
-            contract.setId(contract1.getId());
-            return contractRepository.save(contract);
-        }
+    public ContractDTO updateContract(ContractDTO contract) {
         return null;
     }
 
     @Override
     public Boolean deleteContract(Long contractId) {
         contractRepository.deleteById(contractId);
-        if(findContractById(contractId) == null)
+        if(contractRepository.findById(contractId).orElse(null) == null)
             return true;
         return false;
     }

@@ -1,6 +1,6 @@
 package com.umair.PropertyManagement.implementation;
 
-import com.umair.PropertyManagement.model.dto.UserDTO;
+import com.umair.PropertyManagement.dto.UserDTO;
 import com.umair.PropertyManagement.exceptions.EntityAlreadyExistsException;
 import com.umair.PropertyManagement.mapper.UserMapper;
 import com.umair.PropertyManagement.model.User;
@@ -78,11 +78,8 @@ public class UserServiceImplementation implements UserService {
             userDTO.setUsername(existingUser.getUsername());
             userDTO.setEmail(existingUser.getEmail());
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
-            if (userDTO.getRoles().isEmpty()) {
-                throw new EntityAlreadyExistsException("Role does not exists");
-            }
-
+            userDTO.setRoles(existingUser.getRoles());
+            
             User savedUser = userRepository.save(UserMapper.UserDTOToUser(userDTO, roleRepository));
             return UserMapper.UserToUserDTO(savedUser);
         }

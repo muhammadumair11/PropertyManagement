@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Image;
-import com.umair.PropertyManagement.model.dto.ImagesDTO;
+import com.umair.PropertyManagement.dto.ImagesDTO;
 
 public class ImageMapper {
 

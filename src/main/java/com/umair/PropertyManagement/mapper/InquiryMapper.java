@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Inquiry;
-import com.umair.PropertyManagement.model.dto.InquiryDTO;
+import com.umair.PropertyManagement.dto.InquiryDTO;
 
 public class InquiryMapper {
 
@@ -9,7 +9,10 @@ public class InquiryMapper {
         if (inquiry == null) return null;
 
         InquiryDTO inquiryDTO = new InquiryDTO();
+        inquiryDTO.setId(inquiry.getId());
         inquiryDTO.setMessage(inquiry.getMessage());
+        inquiryDTO.setUserId(inquiry.getUser().getId());
+        inquiryDTO.setPropertyId(inquiry.getProperty().getId());
 
         return inquiryDTO;
     }
