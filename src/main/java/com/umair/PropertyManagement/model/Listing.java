@@ -1,9 +1,7 @@
 package com.umair.PropertyManagement.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -13,9 +11,11 @@ import java.util.Date;
 //property_id bigint [ref: > Property.id]
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

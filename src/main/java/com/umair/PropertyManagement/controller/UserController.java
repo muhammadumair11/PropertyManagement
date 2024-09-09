@@ -1,6 +1,7 @@
 package com.umair.PropertyManagement.controller;
 
 import com.umair.PropertyManagement.dto.UserDTO;
+import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,5 +63,18 @@ public class UserController {
     @DeleteMapping("{userId}/role")
     public ResponseEntity<UserDTO> deleteRoleForUser(@PathVariable Long userId, @RequestParam String rolename) {
         return ResponseEntity.ok(userService.deleteRoleFromUser(userId, rolename));
+    }
+
+    /*
+        Favorite Properties of User
+     */
+    @PostMapping("{userId}/favorites/{propertyId}")
+    public ResponseEntity<User> addFavorite(@PathVariable Long userId, @PathVariable Long propertyId) {
+        return ResponseEntity.ok(userService.addFavoriteProperty(userId, propertyId));
+    }
+
+    @DeleteMapping("{userId}/favorites/{propertyId}")
+    public ResponseEntity<User> removeFavorite(@PathVariable Long userId, @PathVariable Long propertyId) {
+        return ResponseEntity.ok(userService.removeFavoriteProperty(userId, propertyId));
     }
 }

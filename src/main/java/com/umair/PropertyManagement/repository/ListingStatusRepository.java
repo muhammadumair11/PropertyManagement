@@ -7,7 +7,9 @@ import com.umair.PropertyManagement.model.PropertyType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ListingStatusRepository extends JpaRepository<ListingStatus, Long> {
-    ListingStatus findByName(String listingStatus);
+    Optional<ListingStatus> findByName(String listingStatus);
 }

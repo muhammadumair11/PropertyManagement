@@ -1,15 +1,17 @@
 package com.umair.PropertyManagement.services;
 
 
+import com.umair.PropertyManagement.dto.listingdtos.ListingDTO;
+import com.umair.PropertyManagement.dto.listingdtos.ListingRequestDTO;
 import com.umair.PropertyManagement.model.Listing;
 
 import java.util.List;
 
 public interface ListingService {
-    List<Listing> findAllListings();
-    Listing findListingById(Long listingId);
-    Listing createListing(Listing listing);
-    Listing updateListing(Listing listing);
+    List<ListingDTO> findAllListings();
+    ListingDTO findListingById(Long listingId);
+    ListingDTO createListing(ListingRequestDTO listingRequestDTO);
+    ListingDTO updateListing(ListingRequestDTO listingRequestDTO);
     Boolean deleteListing(Long listingId);
 }
 

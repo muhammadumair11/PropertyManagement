@@ -48,6 +48,7 @@ public class Property {
     Contract contract;
 
     @OneToOne(mappedBy = "property")
+    @JsonIgnore
     Listing listing;
 
     @OneToMany(mappedBy = "property", fetch = FetchType.EAGER, orphanRemoval = true)

@@ -50,7 +50,7 @@ public class User {
     List<Review> reviews;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER , cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "favorite",
             joinColumns = @JoinColumn(name = "user_id"),

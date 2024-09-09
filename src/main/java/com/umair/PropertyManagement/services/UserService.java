@@ -15,4 +15,7 @@ public interface UserService {
 
     UserDTO addRoleForUser(Long userId, String rolename);
     UserDTO deleteRoleFromUser(Long userId, String rolename);
+
+    User addFavoriteProperty(Long userId, Long propertyId);
+    User removeFavoriteProperty(Long userId, Long propertyId);
 }

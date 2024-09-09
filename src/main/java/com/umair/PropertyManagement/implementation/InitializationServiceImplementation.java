@@ -110,7 +110,7 @@ public class InitializationServiceImplementation implements InitializationServic
         ListingStatusesEnum[] listingStatusesEnums = ListingStatusesEnum.values();
 
         for (ListingStatusesEnum listingStatusesEnum : listingStatusesEnums) {
-            if (listingStatusRepository.findByName(listingStatusesEnum.name()) == null) {
+            if (listingStatusRepository.findByName(listingStatusesEnum.name()).isEmpty()) {
                 listingStatusRepository.save(new ListingStatus(listingStatusesEnum.name()));
             }
         }

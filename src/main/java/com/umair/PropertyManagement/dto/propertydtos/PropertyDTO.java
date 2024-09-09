@@ -1,6 +1,7 @@
 package com.umair.PropertyManagement.dto.propertydtos;
 
 import com.umair.PropertyManagement.dto.*;
+import com.umair.PropertyManagement.dto.listingdtos.ListingDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,6 @@ public class PropertyDTO {
     private AddressDTO address;
     private List<InquiryDTO> inquiries;
     private ContractDTO contract;
-    private ListingDTO listing;
     private List<ImagesDTO> images;
     private List<ReviewDTO> reviews;
 }

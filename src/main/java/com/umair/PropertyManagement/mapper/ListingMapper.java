@@ -1,7 +1,7 @@
 package com.umair.PropertyManagement.mapper;
 
 import com.umair.PropertyManagement.model.Listing;
-import com.umair.PropertyManagement.dto.ListingDTO;
+import com.umair.PropertyManagement.dto.listingdtos.ListingDTO;
 import com.umair.PropertyManagement.dto.ListingStatusesDTO;
 
 public class ListingMapper {
@@ -10,6 +10,7 @@ public class ListingMapper {
         if (listing == null) return null;
 
         ListingDTO listingDTO = new ListingDTO();
+        listingDTO.setId(listing.getId());
         listingDTO.setListingDate(listing.getListingDate());
 
         // Convert ListingStatus to its string representation if needed

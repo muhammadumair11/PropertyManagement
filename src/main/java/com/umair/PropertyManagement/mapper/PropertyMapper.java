@@ -38,9 +38,6 @@ public class PropertyMapper {
             propertyDTO.setContract(ContractMapper.ContractToContractDTO(property.getContract()));
         }
 
-        if (property.getListing() != null) {
-            propertyDTO.setListing(ListingMapper.ListingToListingDTO(property.getListing()));
-        }
 
         if (property.getImages() != null) {
             propertyDTO.setImages(property.getImages().stream().map(ImageMapper::ImageToImagesDTO).collect(Collectors.toList()));

@@ -6,6 +6,7 @@ import com.umair.PropertyManagement.mapper.UserMapper;
 import com.umair.PropertyManagement.model.User;
 import com.umair.PropertyManagement.repository.RoleRepository;
 import com.umair.PropertyManagement.repository.UserRepository;
+import com.umair.PropertyManagement.services.FavoriteService;
 import com.umair.PropertyManagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,8 @@ public class UserServiceImplementation implements UserService {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    FavoriteService favoriteService;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -135,5 +138,12 @@ public class UserServiceImplementation implements UserService {
 
         return findUserById(userId);
 
+    }
+
+    public User addFavoriteProperty(Long userId, Long propertyId) {
+        return favoriteService.addFavorite(userId, propertyId);
+    }
+    public User removeFavoriteProperty(Long userId, Long propertyId) {
+        return favoriteService.removeFavorite(userId, propertyId);
     }
 }

@@ -1,4 +1,4 @@
-package com.umair.PropertyManagement.dto;
+package com.umair.PropertyManagement.dto.listingdtos;
 
 import com.umair.PropertyManagement.dto.propertydtos.PropertyDTO;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListingDTO {
+    private Long id;
     private Date listingDate;
     private String listingStatus;
     private PropertyDTO property;
